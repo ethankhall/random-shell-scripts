@@ -1,0 +1,9 @@
+ext{
+	cargo = [:]
+}
+
+cargo.ip="12345"
+cargo.port=8080
+cargo.username="tomcat"
+cargo.password="tomcat"
+cargo.container="tomcat7x"
