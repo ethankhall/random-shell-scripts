@@ -1,0 +1,10 @@
+task copyBuildInfo(type: Copy) {
+    from 'src/templet'
+    include 'BuildData.java'
+    into 'src/main/java'
+    expand([
+        commitId: "hg id -i".execute().text.trim()
+    ])
+}
+copyBuildInfo.outputs.upToDateWhen { false }
+compileJava.dependsOn(copyBuildInfo)
