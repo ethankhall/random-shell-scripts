@@ -1,0 +1,7 @@
+task findClass << {
+    configurations.compile.each { file ->
+        def filter = zipTree(file).filter { it =~ /JsonIgnore/ }
+        if(!filter.isEmpty())
+            println("Found file in: $file")
+    }
+}
