@@ -5,3 +5,20 @@ task findClass << {
             println("Found file in: $file")
     }
 }
+
+task searchClass << {
+    configurations.runtime.each { file ->
+        def containers = []
+        zipTree(file).each {
+            if(it.getAbsoluteFile().text.contains("JsonIgnore")) {
+                containers += it
+            }
+        }
+        if(!containers.isEmpty()) {
+            println("Found file in: $file")
+            containers.each {
+                println(" - " + it)
+            }
+        }
+    }
+}
