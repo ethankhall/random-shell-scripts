@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath group: 'com.moowork.gradle', name: 'gradle-grunt-plugin', version: '0.2'
+    }
+
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'grunt'
+apply plugin: 'base'
+
+configurations {
+    foo
+}
+
+grunt_build.dependsOn installGrunt, npmInstall
+
+
+group = 'com.example'
+clean.dependsOn grunt_clean
+
+// runs "grunt build" as part of your gradle build
+task build( dependsOn: [grunt_build])
+
+artifacts {
+    archives file: file('build/foo.zip'), name: 'foo', type: 'zip', builtBy: grunt_build
+}
+
+publishing {
+    publications {
+        mobile(MavenPublication) {
+            artifactId 'foo'
+            artifact 'build/foo.zip'
+        }
+    }
+}
