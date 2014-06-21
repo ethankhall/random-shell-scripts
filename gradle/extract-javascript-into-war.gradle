@@ -1,0 +1,22 @@
+configurations {
+  jsProject
+}
+
+dependencies {
+  jsProject "com.example:jsProjectName:1.0.+"
+}
+
+task unzipJavascriptProject(type:Copy, dependsOn: [configurations.jsProject]) << {
+    //Extract all the dependencies for jsProject
+    configurations.jsProject.each {
+      from(zipTree(it))
+    }
+    
+    //Change jsProject to be where you want the project to be included
+    into file("${buildDir}/webapp/jsProject")
+}
+
+//include the output into the war
+war {
+    from "${buildDir}/webapp"
+}
